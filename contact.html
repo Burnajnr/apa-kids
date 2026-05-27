@@ -111,7 +111,7 @@
               <div class="contact-detail-icon"><i class="fa-solid fa-envelope"></i></div>
               <div class="contact-detail-text">
                 <h4>Email Inquiries</h4>
-                <p><a href="mailto:info@apaprepacademy.com">info@apaprepacademy.com</a></p>
+                <p><a href="mailto:Dynamickidzplaycorner@gmail.com">Dynamickidzplaycorner@gmail.com</a></p>
               </div>
             </div>
 
@@ -143,41 +143,71 @@
 
         <!-- Inquiry Form Panel -->
         <div class="contact-form-panel">
-          <h3 style="font-size: 1.5rem; color: var(--navy-primary); margin-bottom: 20px; font-family: var(--font-heading);">Submit a Message</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">
-            Have questions about our curriculums, planned facilities, or the licensing progress? Fill out our form and we'll reply to your email address promptly.
-          </p>
+          <div class="form-wrapper">
+            <h3 style="font-size: 1.5rem; color: var(--navy-primary); margin-bottom: 20px; font-family: var(--font-heading);">Submit a Message</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">
+              Have questions about our curriculums, planned facilities, or the licensing progress? Fill out our form and we'll reply to your email address promptly.
+            </p>
 
-          <form id="contactForm">
-            <div class="form-group">
-              <label for="contactName" class="form-label">Full Name *</label>
-              <input type="text" id="contactName" class="form-control" placeholder="John Doe" required>
-            </div>
+            <form id="contactForm">
+              <!-- Honeypot Spam Protection (Hidden from users) -->
+              <div class="honey-field" style="display:none !important;">
+                <label for="contactHoney">Leave this field blank</label>
+                <input type="text" id="contactHoney" name="website" tabindex="-1" autocomplete="off">
+              </div>
 
-            <div class="form-group">
-              <label for="contactEmail" class="form-label">Email Address *</label>
-              <input type="email" id="contactEmail" class="form-control" placeholder="john@example.com" required>
-            </div>
+              <div class="form-group">
+                <label for="contactName" class="form-label">Full Name *</label>
+                <input type="text" id="contactName" class="form-control" placeholder="John Doe" required>
+              </div>
 
-            <div class="form-group">
-              <label for="contactPhone" class="form-label">Phone Number (Optional)</label>
-              <input type="tel" id="contactPhone" class="form-control" placeholder="708-555-0100">
-            </div>
+              <div class="form-group">
+                <label for="contactEmail" class="form-label">Email Address *</label>
+                <input type="email" id="contactEmail" class="form-control" placeholder="john@example.com" required>
+              </div>
 
-            <div class="form-group">
-              <label for="contactMessage" class="form-label">Your Message *</label>
-              <textarea id="contactMessage" class="form-control" placeholder="Write your questions or notes here..." required></textarea>
-            </div>
+              <div class="form-group">
+                <label for="contactPhone" class="form-label">Phone Number (Optional)</label>
+                <input type="tel" id="contactPhone" class="form-control" placeholder="708-555-0100">
+              </div>
 
-            <div class="licensing-notice-box light-version" style="font-size: 0.75rem; margin-bottom: 20px; padding: 15px;">
-              <h4 style="font-size: 0.8rem; margin-bottom: 5px;"><i class="fa-solid fa-triangle-exclamation"></i> Important Notice</h4>
+              <div class="form-group">
+                <label for="contactSubject" class="form-label">Subject *</label>
+                <input type="text" id="contactSubject" class="form-control" placeholder="Inquiry about waitlist, programs, etc." required>
+              </div>
+
+              <div class="form-group">
+                <label for="contactMessage" class="form-label">Your Message *</label>
+                <textarea id="contactMessage" class="form-control" placeholder="Write your questions or notes here..." required></textarea>
+              </div>
+
+              <div class="licensing-notice-box light-version" style="font-size: 0.75rem; margin-bottom: 20px; padding: 15px;">
+                <h4 style="font-size: 0.8rem; margin-bottom: 5px;"><i class="fa-solid fa-triangle-exclamation"></i> Important Notice</h4>
+                <p>
+                  APA Prep Academy is currently in the Illinois DCFS licensing process under Rule 407. No child care services are currently provided.
+                </p>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+          </div>
+
+          <!-- Success Wrapper (Hidden initially) -->
+          <div class="success-wrapper" style="display: none;">
+            <div class="success-card">
+              <div class="success-icon-box">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+              <h3>Message Sent!</h3>
               <p>
-                APA Prep Academy is currently in the Illinois DCFS licensing process under Rule 407. No child care services are currently provided.
+                Thank you for reaching out to APA Prep Academy. Your message has been sent directly to our business email address.
               </p>
+              <div class="success-details-box">
+                <p>A copy of your submission details has been processed. We will review your message and reply to you at <strong id="successEmailDisplay">your email address</strong> shortly.</p>
+              </div>
+              <button type="button" class="btn btn-primary btn-back-to-form">Send Another Message</button>
             </div>
-
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
-          </form>
+          </div>
         </div>
 
       </div>
@@ -239,7 +269,7 @@
           <div class="footer-contact-info">
             <span><i class="fa-solid fa-location-dot"></i> 993 S Dixie Hwy<br>Beecher, IL 60401</span>
             <span><i class="fa-solid fa-phone"></i> Call or Text:<br><a href="tel:7089736836">708-973-6836</a></span>
-            <span><i class="fa-solid fa-envelope"></i> Email:<br><a href="mailto:info@apaprepacademy.com">info@apaprepacademy.com</a></span>
+            <span><i class="fa-solid fa-envelope"></i> Email:<br><a href="mailto:Dynamickidzplaycorner@gmail.com">Dynamickidzplaycorner@gmail.com</a></span>
           </div>
         </div>
 

@@ -40,46 +40,193 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contactForm');
 
   if (inquiryForm) {
-    inquiryForm.addEventListener('submit', (e) => {
+    const parentPanel = inquiryForm.closest('.contact-form-panel');
+    const formWrapper = parentPanel ? parentPanel.querySelector('.form-wrapper') : null;
+    const successWrapper = parentPanel ? parentPanel.querySelector('.success-wrapper') : null;
+    const successEmail = successWrapper ? successWrapper.querySelector('#successEmailDisplay') : null;
+    const backBtn = successWrapper ? successWrapper.querySelector('.btn-back-to-form') : null;
+    const submitBtn = inquiryForm.querySelector('button[type="submit"]');
+
+    inquiryForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // Form fields
-      const name = document.getElementById('parentName').value.trim();
-      const phone = document.getElementById('parentPhone').value.trim();
-      const email = document.getElementById('parentEmail').value.trim();
+      const parentName = document.getElementById('parentName').value.trim();
+      const parentPhone = document.getElementById('parentPhone').value.trim();
+      const parentEmail = document.getElementById('parentEmail').value.trim();
+      const childName = document.getElementById('childName').value.trim();
       const childAge = document.getElementById('childAge').value;
       const startDate = document.getElementById('startDate').value;
+      const notes = document.getElementById('notes').value.trim();
+      const website = document.getElementById('inquiryHoney').value;
 
-      if (!name || !phone || !email || !childAge || !startDate) {
+      if (!parentName || !parentPhone || !parentEmail || !childAge || !startDate) {
         showToast('Please fill out all required fields.', 'error');
         return;
       }
 
-      // Simulate API submit or Email delivery
-      console.log('Sending Inquiry:', { name, phone, email, childAge, startDate });
-      showToast('Thank you! Your waitlist inquiry has been received. We will contact you soon.', 'success');
-      inquiryForm.reset();
+      // Client-side email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(parentEmail)) {
+        showToast('Please enter a valid email address.', 'error');
+        return;
+      }
+
+      try {
+        setFormLoadingState(inquiryForm, submitBtn, true, 'Submitting waitlist...');
+
+        const response = await fetch('/api/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            formType: 'inquiry',
+            parentName,
+            parentPhone,
+            parentEmail,
+            childName,
+            childAge,
+            startDate,
+            notes,
+            website
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          showToast('Inquiry submitted successfully!', 'success');
+          
+          if (successEmail) {
+            successEmail.textContent = parentEmail;
+          }
+          
+          inquiryForm.reset();
+
+          if (formWrapper && successWrapper) {
+            formWrapper.style.display = 'none';
+            successWrapper.style.display = 'block';
+            successWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        } else {
+          showToast(result.error || 'An error occurred during submission.', 'error');
+        }
+      } catch (error) {
+        console.error('Waitlist submission error:', error);
+        showToast('Unable to connect to the server. Please try again later.', 'error');
+      } finally {
+        setFormLoadingState(inquiryForm, submitBtn, false, 'Submit Waitlist Inquiry');
+      }
     });
+
+    if (backBtn && formWrapper && successWrapper) {
+      backBtn.addEventListener('click', () => {
+        successWrapper.style.display = 'none';
+        formWrapper.style.display = 'block';
+      });
+    }
   }
 
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    const parentPanel = contactForm.closest('.contact-form-panel');
+    const formWrapper = parentPanel ? parentPanel.querySelector('.form-wrapper') : null;
+    const successWrapper = parentPanel ? parentPanel.querySelector('.success-wrapper') : null;
+    const successEmail = successWrapper ? successWrapper.querySelector('#successEmailDisplay') : null;
+    const backBtn = successWrapper ? successWrapper.querySelector('.btn-back-to-form') : null;
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const name = document.getElementById('contactName').value.trim();
       const email = document.getElementById('contactEmail').value.trim();
+      const phone = document.getElementById('contactPhone').value.trim();
+      const subject = document.getElementById('contactSubject').value.trim();
       const message = document.getElementById('contactMessage').value.trim();
+      const website = document.getElementById('contactHoney').value;
 
-      if (!name || !email || !message) {
-        showToast('Please fill out all fields.', 'error');
+      if (!name || !email || !subject || !message) {
+        showToast('Please fill out all required fields.', 'error');
         return;
       }
 
-      // Simulate API submit or Email delivery
-      console.log('Sending Message:', { name, email, message });
-      showToast('Thank you! Your message has been sent successfully.', 'success');
-      contactForm.reset();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showToast('Please enter a valid email address.', 'error');
+        return;
+      }
+
+      try {
+        setFormLoadingState(contactForm, submitBtn, true, 'Sending Message...');
+
+        const response = await fetch('/api/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            formType: 'contact',
+            name,
+            email,
+            phone,
+            subject,
+            message,
+            website
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          showToast('Message sent successfully!', 'success');
+          
+          if (successEmail) {
+            successEmail.textContent = email;
+          }
+
+          contactForm.reset();
+
+          if (formWrapper && successWrapper) {
+            formWrapper.style.display = 'none';
+            successWrapper.style.display = 'block';
+            successWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        } else {
+          showToast(result.error || 'An error occurred during submission.', 'error');
+        }
+      } catch (error) {
+        console.error('Contact submission error:', error);
+        showToast('Unable to connect to the server. Please try again later.', 'error');
+      } finally {
+        setFormLoadingState(contactForm, submitBtn, false, 'Send Message');
+      }
     });
+
+    if (backBtn && formWrapper && successWrapper) {
+      backBtn.addEventListener('click', () => {
+        successWrapper.style.display = 'none';
+        formWrapper.style.display = 'block';
+      });
+    }
+  }
+
+  // Helper to toggle form loading states
+  function setFormLoadingState(form, button, isLoading, buttonText) {
+    const inputs = form.querySelectorAll('input, select, textarea, button');
+    
+    inputs.forEach(input => {
+      input.disabled = isLoading;
+    });
+
+    if (button) {
+      if (isLoading) {
+        button.classList.add('btn-loading');
+        button.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> ${buttonText}`;
+      } else {
+        button.classList.remove('btn-loading');
+        button.innerHTML = buttonText;
+      }
+    }
   }
 
   // Helper function to show a custom premium toast notification

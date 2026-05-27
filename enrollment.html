@@ -114,61 +114,82 @@
           </div>
         </div>
 
-        <!-- Form Column -->
-        <div class="contact-form-panel">
-          <h3 style="font-size: 1.5rem; color: var(--navy-primary); margin-bottom: 25px; font-family: var(--font-heading);">Parent Inquiry Form</h3>
-          
-          <form id="inquiryForm">
+          <div class="form-wrapper">
+            <h3 style="font-size: 1.5rem; color: var(--navy-primary); margin-bottom: 25px; font-family: var(--font-heading);">Parent Inquiry Form</h3>
             
-            <div class="form-group">
-              <label for="parentName" class="form-label">Parent / Guardian Name *</label>
-              <input type="text" id="parentName" class="form-control" placeholder="Jane Doe" required>
-            </div>
-
-            <div class="form-group-row">
-              <div class="form-group">
-                <label for="parentPhone" class="form-label">Phone Number *</label>
-                <input type="tel" id="parentPhone" class="form-control" placeholder="708-555-0199" required>
+            <form id="inquiryForm">
+              <!-- Honeypot Spam Protection (Hidden from users) -->
+              <div class="honey-field" style="display:none !important;">
+                <label for="inquiryHoney">Leave this field blank</label>
+                <input type="text" id="inquiryHoney" name="website" tabindex="-1" autocomplete="off">
               </div>
+
               <div class="form-group">
-                <label for="parentEmail" class="form-label">Email Address *</label>
-                <input type="email" id="parentEmail" class="form-control" placeholder="jane@example.com" required>
+                <label for="parentName" class="form-label">Parent / Guardian Name *</label>
+                <input type="text" id="parentName" class="form-control" placeholder="Jane Doe" required>
               </div>
-            </div>
 
-            <div class="form-group-row">
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="parentPhone" class="form-label">Phone Number *</label>
+                  <input type="tel" id="parentPhone" class="form-control" placeholder="708-555-0199" required>
+                </div>
+                <div class="form-group">
+                  <label for="parentEmail" class="form-label">Email Address *</label>
+                  <input type="email" id="parentEmail" class="form-control" placeholder="jane@example.com" required>
+                </div>
+              </div>
+
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="childName" class="form-label">Child's Name (Optional)</label>
+                  <input type="text" id="childName" class="form-control" placeholder="Sam Doe">
+                </div>
+                <div class="form-group">
+                  <label for="childAge" class="form-label">Child's Age Group *</label>
+                  <select id="childAge" class="form-control" required>
+                    <option value="" disabled selected>Select age category</option>
+                    <option value="infant">Infant (6 Weeks - 14 Months)</option>
+                    <option value="toddler">Toddler (15 Months - 2 Years)</option>
+                    <option value="preschool">Preschool (3 - 5 Years)</option>
+                  </select>
+                </div>
+              </div>
+
               <div class="form-group">
-                <label for="childName" class="form-label">Child's Name (Optional)</label>
-                <input type="text" id="childName" class="form-control" placeholder="Sam Doe">
+                <label for="startDate" class="form-label">Desired Start Date *</label>
+                <input type="date" id="startDate" class="form-control" required>
               </div>
+
               <div class="form-group">
-                <label for="childAge" class="form-label">Child's Age Group *</label>
-                <select id="childAge" class="form-control" required>
-                  <option value="" disabled selected>Select age category</option>
-                  <option value="infant">Infant (6 Weeks - 14 Months)</option>
-                  <option value="toddler">Toddler (15 Months - 2 Years)</option>
-                  <option value="preschool">Preschool (3 - 5 Years)</option>
-                </select>
+                <label for="notes" class="form-label">Additional Notes or Special Needs Focus</label>
+                <textarea id="notes" class="form-control" placeholder="Tell us about your child's needs, schedule preferences, or any inclusive learning requirements."></textarea>
               </div>
-            </div>
 
-            <div class="form-group">
-              <label for="startDate" class="form-label">Desired Start Date *</label>
-              <input type="date" id="startDate" class="form-control" required>
-            </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4;">
+                * By submitting this form, you acknowledge that APA Prep Academy is currently seeking Illinois DCFS licensing under Rule 407, and that this form serves as a statement of interest rather than an enrollment contract.
+              </div>
 
-            <div class="form-group">
-              <label for="notes" class="form-label">Additional Notes or Special Needs Focus</label>
-              <textarea id="notes" class="form-control" placeholder="Tell us about your child's needs, schedule preferences, or any inclusive learning requirements."></textarea>
-            </div>
+              <button type="submit" class="btn btn-secondary" style="width: 100%;">Submit Waitlist Inquiry</button>
+            </form>
+          </div>
 
-            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4;">
-              * By submitting this form, you acknowledge that APA Prep Academy is currently seeking Illinois DCFS licensing under Rule 407, and that this form serves as a statement of interest rather than an enrollment contract.
+          <!-- Success Wrapper (Hidden initially) -->
+          <div class="success-wrapper" style="display: none;">
+            <div class="success-card">
+              <div class="success-icon-box">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+              <h3>Inquiry Submitted!</h3>
+              <p>
+                Thank you for your pre-enrollment interest in APA Prep Academy. Your child's profile and desired schedule details have been sent to our administration team.
+              </p>
+              <div class="success-details-box">
+                <p>We have received your request and will keep you updated at <strong id="successEmailDisplay">your email address</strong> regarding waitlist updates, class compositions, and DCFS licensing milestones.</p>
+              </div>
+              <button type="button" class="btn btn-primary btn-back-to-form">Submit Another Inquiry</button>
             </div>
-
-            <button type="submit" class="btn btn-secondary" style="width: 100%;">Submit Waitlist Inquiry</button>
-          </form>
-        </div>
+          </div>
 
       </div>
 
@@ -229,7 +250,7 @@
           <div class="footer-contact-info">
             <span><i class="fa-solid fa-location-dot"></i> 993 S Dixie Hwy<br>Beecher, IL 60401</span>
             <span><i class="fa-solid fa-phone"></i> Call or Text:<br><a href="tel:7089736836">708-973-6836</a></span>
-            <span><i class="fa-solid fa-envelope"></i> Email:<br><a href="mailto:info@apaprepacademy.com">info@apaprepacademy.com</a></span>
+            <span><i class="fa-solid fa-envelope"></i> Email:<br><a href="mailto:Dynamickidzplaycorner@gmail.com">Dynamickidzplaycorner@gmail.com</a></span>
           </div>
         </div>
 
